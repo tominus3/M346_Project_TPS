@@ -1,2 +1,2 @@
-# M254_Project_TPS
-M254_Project made by Tom, Paulo and Sai
+# M346_Project_TPS
+M346_Project made by Tom, Paulo and Sai

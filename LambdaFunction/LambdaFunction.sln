@@ -1,0 +1,42 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.2.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CelebrityRecogniser", "CelebrityRecogniser", "{7141DD6E-AE8D-E58A-15E4-2E70778C5C77}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{DCCD33ED-0776-404E-C563-D47C9F7D145E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CelebrityRecogniser.Tests", "CelebrityRecogniser\test\CelebrityRecogniser.Tests\CelebrityRecogniser.Tests.csproj", "{81DF17CE-A17E-ADDA-0827-7DB0EB462293}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{8A6B5D6B-2D07-BC4D-6B63-E847522D84A0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CelebrityRecogniser", "CelebrityRecogniser\src\CelebrityRecogniser\CelebrityRecogniser.csproj", "{30C7202B-378E-5032-8BEA-73FF29C91D17}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{81DF17CE-A17E-ADDA-0827-7DB0EB462293}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81DF17CE-A17E-ADDA-0827-7DB0EB462293}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81DF17CE-A17E-ADDA-0827-7DB0EB462293}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81DF17CE-A17E-ADDA-0827-7DB0EB462293}.Release|Any CPU.Build.0 = Release|Any CPU
+		{30C7202B-378E-5032-8BEA-73FF29C91D17}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{30C7202B-378E-5032-8BEA-73FF29C91D17}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{30C7202B-378E-5032-8BEA-73FF29C91D17}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{30C7202B-378E-5032-8BEA-73FF29C91D17}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{DCCD33ED-0776-404E-C563-D47C9F7D145E} = {7141DD6E-AE8D-E58A-15E4-2E70778C5C77}
+		{81DF17CE-A17E-ADDA-0827-7DB0EB462293} = {DCCD33ED-0776-404E-C563-D47C9F7D145E}
+		{8A6B5D6B-2D07-BC4D-6B63-E847522D84A0} = {7141DD6E-AE8D-E58A-15E4-2E70778C5C77}
+		{30C7202B-378E-5032-8BEA-73FF29C91D17} = {8A6B5D6B-2D07-BC4D-6B63-E847522D84A0}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2A27DE04-4C43-471D-9131-2BE8ABF94306}
+	EndGlobalSection
+EndGlobal

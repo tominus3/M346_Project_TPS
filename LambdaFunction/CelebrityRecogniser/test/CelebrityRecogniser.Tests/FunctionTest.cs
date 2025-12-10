@@ -7,14 +7,8 @@ namespace CelebrityRecogniser.Tests;
 public class FunctionTest
 {
     [Fact]
-    public void TestToUpperFunction()
+    public void TestCelebritiesInImage()
     {
-
-        // Invoke the lambda function and confirm the string was upper cased.
-        var function = new Function();
-        var context = new TestLambdaContext();
-        var upperCase = function.FunctionHandler("hello world", context);
-
-        Assert.Equal("HELLO WORLD", upperCase);
+        CelebritiesInImage.Example().Wait();
     }
 }

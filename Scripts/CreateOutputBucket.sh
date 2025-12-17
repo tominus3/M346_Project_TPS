@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# Script:	CreateBuckets.sh
-# Description:	Erstellt zwei konfigurierte Buckets
+# Script:	CreateOutputBucket.sh
+# Description:	Erstellt ein konfiguriertes Output Bucket
 # Author:	Paulo Capelos
-# Date:		03.12.2025
+# Date:		17.12.2025
 
 BUCKET_NAME=output-bucket-m346-project
 

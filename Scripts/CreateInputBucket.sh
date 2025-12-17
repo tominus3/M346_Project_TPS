@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# Script:	CreateBuckets.sh
-# Description:	Erstellt zwei konfigurierte Buckets
+# Script:	CreateInputBucket.sh
+# Description:	Erstellt ein konfiguriertes Input Bucket
 # Author:	Paulo Capelos
-# Date:		03.12.2025
+# Date:		17.12.2025
 
 BUCKET_NAME=input-bucket-m346-project
 

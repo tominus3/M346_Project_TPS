@@ -13,12 +13,16 @@ echo "Bucket created"
 
 function configure_bucket()
 {
-	aws s3api put-public-access-block --bucket $BUCKET_NAME --public-access-block-configuration "BlockPublicPolicy=false"
+	aws s3api put-public-access-block \
+	--bucket $BUCKET_NAME \
+	--public-access-block-configuration "BlockPublicPolicy=false"
 }
 
 function activate_ACL()
 {
-	aws s3api put-bucket-ownership-controls --bucket $BUCKET_NAME --ownership-controls="Rules=[{ObjectOwnership=BucketOwnerPreferred}]"
+	aws s3api put-bucket-ownership-controls \
+	--bucket $BUCKET_NAME \
+	--ownership-controls="Rules=[{ObjectOwnership=BucketOwnerPreferred}]"
 }
 
 configure_bucket

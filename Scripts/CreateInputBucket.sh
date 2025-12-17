@@ -5,11 +5,18 @@
 # Author:	Paulo Capelos
 # Date:		17.12.2025
 
-BUCKET_NAME=input-bucket-m346-project
+BUCKET_NAME="input-bucket-m346-project-${CURRENT_USER}"
+CURRENT_USER=$(whoami)
 
 aws s3 mb s3://$BUCKET_NAME
 
-echo "Bucket created"
+#Überprüfen ob Bucket erfolgreich erstellt wurde
+if aws s3 mb s3://$BUCKET_NAME; then
+    echo "Bucket created successfully"
+else
+    echo "Fehler beim Erstellen des Buckets. Abbruch."
+    exit 1
+fi
 
 function configure_bucket()
 {

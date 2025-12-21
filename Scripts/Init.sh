@@ -24,18 +24,20 @@ OUTPUT_BUCKET_NAME="output-bucket-m346-project-${UNIQUE_BUCKET_NAME}"
 echo "INPUT_BUCKET_NAME=$INPUT_BUCKET_NAME" > BucketNames
 echo "OUTPUT_BUCKET_NAME=$OUTPUT_BUCKET_NAME" >> BucketNames
   
-./CreateInputBucket.sh
+echo "-------------------------------------"
+  
+./Additional/CreateInputBucket.sh
 
 echo "-------------------------------------"
  
-./CreateOutputBucket.sh
+./Additional/CreateOutputBucket.sh
 
 echo "-------------------------------------"
 
-./CreateLambdaFunction.sh
+./Additional/CreateLambdaFunction.sh
 
 echo "-------------------------------------"
  
-./CreateS3Trigger.sh
+./Additional/CreateS3Trigger.sh
 
 

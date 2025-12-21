@@ -6,6 +6,13 @@
 # Date:		20.12.2025
 
 # --- KONFIGURATION ---
+if [ -f "BucketNames" ]; then
+    source BucketNames
+else
+    echo "FEHLER: Datei 'BucketNames' nicht gefunden. Bitte zuerst init.sh ausführen."
+    exit 1
+fi
+
 FUNCTION_NAME="FaceRecognitionLambda"
 
 echo "=== Vollständiger Projekt-Cleanup gestartet ==="

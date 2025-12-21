@@ -6,11 +6,17 @@
 # Date:		17.12.2025
 
 # --- KONFIGURATION ---
+if [ -f "BucketNames" ]; then
+    source BucketNames
+else
+    echo "FEHLER: Datei 'BucketNames' nicht gefunden. Bitte zuerst init.sh ausführen."
+    exit 1
+fi
+
 FUNCTION_NAME="FaceRecognitionLambda"
 ZIP_FILE="LambdaFunction.zip"
 HANDLER="CelebrityRecogniser::CelebrityRecogniser.Function::FunctionHandler"
 ROLE_ARN="arn:aws:iam::211125635461:role/LabRole"
-OUT_BUCKET="output-bucket-m346-project67"
 
 echo "=== Start: Lambda-Deployment ==="
 
@@ -47,7 +53,7 @@ fi
 # damit sie bei jedem Skriptaufruf korrekt gesetzt sind.
 aws lambda update-function-configuration \
     --function-name "$FUNCTION_NAME" \
-    --environment "Variables={OUT_BUCKET=$OUT_BUCKET}" \
+    --environment "Variables={OUT_BUCKET=$OUTPUT_BUCKET_NAME}" \
     --timeout 30 \
     --memory-size 512 >/dev/null
 

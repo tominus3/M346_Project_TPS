@@ -83,38 +83,25 @@ Um die erstellten Buckets zu löschen, führen sie im Verzeichnis "Scripts" den 
 
 ## 2. Service-Architektur und -Implementierung
 
-### 2.1. Aufbau des Cloud Service
+In diesem Abschnitt wird die technische Umsetzung des Face Recognition Service erläutert. Der Service basiert auf einer eventgesteuerten Architektur (Serverless), die AWS S3 und AWS Lambda nutzt.
 
-Der Face Recognition Service wurde als serverlose Architektur im AWS Learner Lab konzipiert und implementiert. Er basiert auf einem ereignisgesteuerten Modell, das durch das Hochladen einer Datei ausgelöst wird, um die automatische Erkennung bekannter Persönlichkeiten zu gewährleisten.
+### 2.1 Infrastruktur-Management: S3-Buckets
 
-### 2.2. Funktionsweise des Services
+Die Speicherung der Daten erfolgt in zwei getrennten S3-Buckets, um Eingangsdaten und Analyseergebnisse zu trennen.
 
-#### 2.2.1. AWS S3 In-Bucket
+- **Erstellung und Konfiguration (`CreateInputBucket.sh` & `CreateOutputBucket.sh`):** Diese Skripte legen die benötigten Buckets in der Region `us-east-1` an. Dabei werden die Public Access Blocks deaktiviert und die Object Ownership auf `BucketOwnerPreferred` gesetzt, um eine korrekte Berechtigungssteuerung via ACLs zu ermöglichen.
 
-Das **S3 In-Bucket** (`input-bucket-m346-project`) dient als Eingangsschnittstelle. (Zu ergänzen)
+- **Bereinigung (`DeleteBuckets.sh`):** Dieses Skript ermöglicht das automatisierte Löschen der Projektressourcen. Es fordert den Benutzer zur Eingabe des Suffixes auf und entfernt beide Buckets inklusive aller enthaltenen Objekte (`--force`).
 
-#### 2.2.2. AWS S3 Out-Bucket
+### 2.2 Logik und Automatisierung: AWS Lambda
 
-Das **S3 Out-Bucket** (`output-bucket-m346-project`) dient als Ausgangsschnittstelle. (Zu ergänzen)
+Das Herzstück des Services ist die Lambda-Funktion, welche die Bildanalyse steuert.
 
-#### 2.2.3. AWS Lambda Funktion
+- **Bereitstellung der Serverless-Funktion (`CreateLambdaFunction.sh`):** Das Skript automatisiert das Deployment der Funktion "FaceRecognitionLambda". Es verwendet die `dotnet8` Runtime und weist der Funktion die notwendige `LabRole` sowie die Handler-Konfiguration zu. Falls die Funktion bereits existiert, wird lediglich der Code über die `LambdaFunction.zip` aktualisiert.
+- **Ereignissteuerung und Workflow-Integration (`CreateS3Trigger.sh`):** Um den Prozess zu automatisieren, wird ein S3-Trigger konfiguriert. Das Skript erteilt S3 die `InvokeFunction`-Berechtigung und setzt eine Event-Notification auf den Input-Bucket, die bei jedem `s3:ObjectCreated:*`-Ereignis die Lambda-Funktion auslöst.
 
-Die Lambda-Funktion ist das zentrale Element und führt die Gesichtserkennung durch.
+### 2.3 Systemarchitektur
 
-#### 2.2.4. Berechtigungen und Rollen
+![Systemarchitektur](img/Systemarchitektur.png)
 
-## 3. Bedienungsanleitung
-
-## 4. Testfälle und Protokollierung
-
-AWS S3 In-Bucket Testfälle:
-
-AWS S3 Out-Bucket Testfälle:
-
-AWS Lambda Funktion Testfälle:
-
-## 5. Reflexion
-
-```
-
-```
+## 3. Testen des Services

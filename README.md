@@ -8,21 +8,48 @@
 | **Repository Link**     | https://github.com/tominus3/M346_Project_TPS    |
 | **Lehrperson**          | Martin Früh (frm1971)                           |
 
-## 1. Einleitung (README.md)
+## 1. Installation und Setup
 
-Dieses Dokument berichtet die Konzeption und Realisierung eines **Face Recognition Service** als Projektarbeit im Rahmen des Moduls 346. Das Projekt wurde in einer Dreiergruppe durchgeführt.
+### 1.1. Voraussetzungen
 
-### 1.1 Ausganslage
+- Ein AWS-Konto mit den erforderlichen Berechtigungen zum Erstellen und Verwalten von S3-Buckets und Lambda-Funktionen.
 
-In diesem Projekt wurde ein Cloud-basierter Face Recognition Service entwickelt, der auf AWS-Diensten basiert. Der Service ermöglicht die automatische Erkennung bekannter Persönlichkeiten in hochgeladenen Bildern.
+- AWS CLI installiert und konfiguriert auf Ihrem lokalen Rechner.d
 
-### 1.2 Projektziele
+### 1.2. Einrichtung des Services
 
-1.  **Cloud Service:** Erstellung eines Face Recognition-Service unter Verwendung von AWS S3-Buckets (In- und Out-Bucket) und einer AWS Lambda-Funktion, die durch einen Trigger ausgelöst wird. Die Gesichtserkennung basiert auf dem AWS-Dienst Recognizing celebrities (AWS Rekognition).
-2.  **Bereitstellung:** Der Service kann mit allen erforderlichen Komponenten durch Ausführung eines Scripts von einem Windows oder Linux-Client aus im AWS Learner-Lab in Betrieb genommen werden.
-3.  **Versionsverwaltung:** Alle für die Inbetriebnahme benötigten Dateien und die zugehörige Dokumentation sind in einem Git-Repository versioniert abgelegt.
-4.  **Dokumentation:** Die Dokumentation ist als Markdown geschrieben, mit dem Einstiegspunkt `Readme.md`.
-5.  **Test und Protokollierung:** Der Service ist getestet und alle Testfälle sind mittels Screenshots dokumentiert und protokolliert.
+1. Klonen Sie das Repository:
+   ```bash
+   git clone https://github.com/tominus3/M346_Project_TPS.git
+   ```
+2. AWS Credentials konfigurieren:
+   Navigieren Sie sich zu ihren AWS Academy Learners Lab und kopieren sie die Credentials, welche sie unter: Launch AWS Academy Learners Lab -> AWS Details finden, indem sie auf "Show AWS Credentials" klicken. Diese geben sie in in ihrem Laufwerk unter `.aws/credentials` ein.
+
+3. Service Initialisierung:
+   Als erstes muss der Service initialisiert werden. Vergewissern sie sich, dass sie sich im Verzeichnis "Scripts" befinden und führen sie anschliessend den folgenden Befehl aus:
+
+   ```bash
+   ./Init.sh
+   ```
+
+   Darauf hin müssen sie einen Namen für ihr S3 In-Bucket und S3 Out-Bucket angeben.
+
+4. Bilddaten hochladen:
+   Laden sie das Bild, welches sie analysieren möchten, im Verzeichnis "Test" hoch. vergiwssen sie Sich, dass das Bild im JPG-Format vorliegt.
+
+5. Service Ausführung:
+   Führen sie anschliessend im gleichen Verzeichnis den folgenden Befehl aus, um den Service zu starten:
+
+   ```bash
+   ./test.sh <Bildname>.jpg
+   ```
+
+6. Löschen der Ressourcen:
+   Um die erstellten Buckets zu löschen, führen sie im Verzeichnis "Scripts" den folgenden Befehl aus:
+
+   ```bash
+   ./Reset.sh
+   ```
 
 ## 2. Service-Architektur und -Implementierung
 

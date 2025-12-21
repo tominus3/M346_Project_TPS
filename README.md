@@ -105,3 +105,73 @@ Das Herzstück des Services ist die Lambda-Funktion, welche die Bildanalyse steu
 ![Systemarchitektur](img/Systemarchitektur.png)
 
 ## 3. Testen des Services
+
+### 3.1 Windows 11 Testprotokoll
+
+Zeitpunkt: 21.12.2025
+Tester: Sai Ragavan
+Betriebssystem: Windows 11
+
+1. Credentials konfigurieren.
+   ![Credentials](img/Credentials.png)
+
+2. JPG-Bild hochladen. (Falls, noch nicht geschehen)
+   ![Bild_Hochladen](img/Bild_Hochladen.png)
+
+3. Initialisierung des Services.
+   ![Init.sh](img/Init.png)
+
+   Der Nutzer wird aufgefordert, einen Namen für die Buckets anzugeben.
+
+4. Name des Buckets angeben.
+   ![Bucket_Name](img/Bucket_Name.png)
+
+   Nachdem der Nutzer die Namen der Buckets angegeben hat, werden diese erstellt und die S3-Trigger sowie die Lambda-Funktion konfiguriert.
+
+5. Service ausführen.
+   ![Ausgabe](img/Ausgabe.png)
+
+   Der Service wird ausgeführt und es sucht das Gesicht im Bild. Sobald die Berühmtheit erkannt wurde, wird das Ergebnis im Output-Bucket gespeichert und im Terminal ausgegeben.
+
+   Fazit: Der Service funktioniert einwandfrei und erkennt die Gesichter in den Bildern korrekt.
+
+6. Löschen der Ressourcen.
+
+### Linux Testprotokoll
+
+Zeitpunkt: 21.12.2025
+Tester: Sai Ragavan
+Betriebssystem: Ubuntu 22.04 LTS
+
+1. Credentials konfigurieren.
+   ![Credentials_Linux](img/Credentials_Linux.png)
+
+2. JPG-Bild hochladen. (Falls, noch nicht geschehen)
+   ![Ronaldo_Linux](img/Ronaldo_Linux.png)
+
+3. Initialisierung des Services.
+   ![Init.sh_Linux](img/Init_Linux.png)
+
+4. Name des Buckets angeben.
+   ![Bucket_Name_Linux](img/Bucket_Name_Linux.png)
+
+5. Service ausführen.
+   ![Ausgabe_Linux](img/Ausgabe_Linux.png)
+
+   (Der Inhalt wird hier nicht vollständig angezeigt, da das Bild zu lang ist.)
+
+   Fazit: Der Service funktioniert einwandfrei und erkennt die Gesichter in den Bildern korrekt.
+
+### 3.3 Empfehlungen
+
+- Speichern sie das Bild im mit einem Kurzen Namen, damit sie dieses einfach im Terminal aufrufen können.
+- Vergewissern sie sich, dass das Bild im JPG-Format vorliegt.
+- Achten sie darauf, dass die AWS Credentials korrekt konfiguriert sind
+
+## 4. Reflexion
+
+### 4.1. Paulo Capelos
+
+### 4.2. Tom Nielsen
+
+### 4.3. Sai Ragavan

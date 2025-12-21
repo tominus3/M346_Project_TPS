@@ -17,8 +17,12 @@ fi
 
 UNIQUE_BUCKET_NAME=${INPUT,,}
   
-export INPUT_BUCKET_NAME="input-bucket-m346-project-${UNIQUE_BUCKET_NAME}"
-export OUTPUT_BUCKET_NAME="output-bucket-m346-project-${UNIQUE_BUCKET_NAME}"  
+INPUT_BUCKET_NAME="input-bucket-m346-project-${UNIQUE_BUCKET_NAME}"
+OUTPUT_BUCKET_NAME="output-bucket-m346-project-${UNIQUE_BUCKET_NAME}"  
+
+# Wir schreiben die echten Namen in eine Datei
+echo "INPUT_BUCKET_NAME=$INPUT_BUCKET_NAME" > BucketNames
+echo "OUTPUT_BUCKET_NAME=$OUTPUT_BUCKET_NAME" >> BucketNames
   
 ./CreateInputBucket.sh
 

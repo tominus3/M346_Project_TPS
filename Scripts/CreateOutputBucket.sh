@@ -5,11 +5,15 @@
 # Author:	Paulo Capelos
 # Date:		17.12.2025
 
-BUCKET_NAME=output-bucket-m346-project
+BUCKET_NAME="output-bucket-m346-project"
+REGION="us-east-1"
 
-aws s3 mb s3://$BUCKET_NAME
-
-echo "Bucket created"
+if aws s3api head-bucket --bucket "$BUCKET_NAME" 2>/dev/null; then
+    echo "Bucket $BUCKET_NAME Bucket already exists"
+else
+    echo "Create bucket"
+    aws s3 mb s3://$BUCKET_NAME --region $REGION
+fi
 
 function configure_bucket()
 {

@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # Script:	CreateOutputBucket.sh
 # Description:	Erstellt ein konfiguriertes Output Bucket

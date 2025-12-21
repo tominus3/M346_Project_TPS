@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 # Script:	CreateInputBucket.sh
 # Description:	Erstellt ein konfiguriertes Input Bucket

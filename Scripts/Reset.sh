@@ -7,8 +7,6 @@
 
 # --- KONFIGURATION ---
 FUNCTION_NAME="FaceRecognitionLambda"
-IN_BUCKET="input-bucket-m346-project67"
-OUT_BUCKET="output-bucket-m346-project67"
 
 echo "=== Vollständiger Projekt-Cleanup gestartet ==="
 
@@ -18,20 +16,20 @@ aws lambda delete-function --function-name "$FUNCTION_NAME" 2>/dev/null || echo 
 
 # 2. In-Bucket löschen
 echo "Lösche In-Bucket: $IN_BUCKET..."
-if aws s3 ls "s3://$IN_BUCKET" 2>/dev/null; then
-    aws s3 rb "s3://$IN_BUCKET" --force
-    echo "-> $IN_BUCKET erfolgreich gelöscht."
+if aws s3 ls "s3://$INPUT_BUCKET_NAME" 2>/dev/null; then
+    aws s3 rb "s3://$INPUT_BUCKET_NAME" --force
+    echo "-> $INPUT_BUCKET_NAME erfolgreich gelöscht."
 else
-    echo "-> $IN_BUCKET existiert nicht."
+    echo "-> $INPUT_BUCKET_NAME existiert nicht."
 fi
 
 # 3. Out-Bucket löschen 
-echo "Lösche Out-Bucket: $OUT_BUCKET..."
-if aws s3 ls "s3://$OUT_BUCKET" 2>/dev/null; then
-    aws s3 rb "s3://$OUT_BUCKET" --force
-    echo "-> $OUT_BUCKET erfolgreich gelöscht."
+echo "Lösche Out-Bucket: $OUTPUT_BUCKET_NAME..."
+if aws s3 ls "s3://$OUTPUT_BUCKET_NAME" 2>/dev/null; then
+    aws s3 rb "s3://$OUTPUT_BUCKET_NAME" --force
+    echo "-> $OUTPUT_BUCKET_NAME erfolgreich gelöscht."
 else
-    echo "-> $OUT_BUCKET existiert nicht."
+    echo "-> $OUTPUT_BUCKET_NAME existiert nicht."
 fi
 
 echo "=== Cleanup abgeschlossen: Alle Ressourcen wurden entfernt! ==="

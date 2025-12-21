@@ -4,6 +4,8 @@
 # Description:	Führt alle Skripts aus
 # Author:	Paulo Capelos
 # Date:		21.12.2025
+
+export AWS_DEFAULT_REGION="us-east-1"
   
  echo "Bitte gib eine Bezeichnung, welche am ende des Buckets hinzugefügt wird"
  echo "Beispiel: output-bucket-m346-project-[Ihre Eingabe]" 

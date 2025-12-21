@@ -1,59 +1,92 @@
 using Amazon.Lambda.Core;
-using System.Threading.Tasks;
+using Amazon.Lambda.S3Events;
 using Amazon.Rekognition;
 using Amazon.Rekognition.Model;
-using System;
-using System.IO;
+using Amazon.S3;
+using Amazon.S3.Model;
+using System.Text.Json;
 
-// Assembly attribute to enable the Lambda function's JSON input to be converted into a .NET class.
 [assembly: LambdaSerializer(typeof(Amazon.Lambda.Serialization.SystemTextJson.DefaultLambdaJsonSerializer))]
 
+// Description: Lambda Funktion zur Erkennung von Prominenten in Bildern mittels AWS Rekognition.
+// Author: Tom Nielsen
+// Date: 21.12.2025
 
-public class CelebritiesInImage
+namespace CelebrityRecogniser;
+
+public class Function
 {
-    public async static Task Example()
+    // Clients für die AWS-Dienste.
+    private readonly AmazonRekognitionClient _rekognitionClient = new AmazonRekognitionClient();
+    private readonly AmazonS3Client _s3Client = new AmazonS3Client();
+
+    /// Der Haupteinstiegspunkt der Lambda-Funktion.
+    /// Wird aufgerufen, wenn eine Datei im S3-Input-Bucket landet.
+    public async Task FunctionHandler(S3Event evnt, ILambdaContext context)
     {
-        string photo = Path.Combine(AppContext.BaseDirectory, "bean.jpg");
+        // Name des Ziel-Buckets aus der Umgebungsvariable lesen, die wir im Bash-Skript setzen.
+        string? outputBucket = Environment.GetEnvironmentVariable("OUT_BUCKET");
 
-        AmazonRekognitionClient rekognitionClient = new AmazonRekognitionClient();
-
-        RecognizeCelebritiesRequest recognizeCelebritiesRequest = new RecognizeCelebritiesRequest();
-
-        Amazon.Rekognition.Model.Image img = new Amazon.Rekognition.Model.Image();
-        byte[] data = null;
-        try
+        if (string.IsNullOrEmpty(outputBucket))
         {
-            using (FileStream fs = new FileStream(photo, FileMode.Open, FileAccess.Read))
-            {
-                data = new byte[fs.Length];
-                fs.Read(data, 0, (int)fs.Length);
-            }
-        }
-        catch(Exception)
-        {
-            Console.WriteLine("Failed to load file " + photo);
+            context.Logger.LogLine("FEHLER: Die Umgebungsvariable 'OUT_BUCKET' ist nicht gesetzt.");
             return;
         }
 
-        img.Bytes = new MemoryStream(data);
-        recognizeCelebritiesRequest.Image = img;
+        // Wir verarbeiten den ersten Datensatz des Events.
+        var s3Record = evnt.Records[0];
+        string bucketName = s3Record.S3.Bucket.Name;
+        string objectKey = s3Record.S3.Object.Key;
 
-        Console.WriteLine("Looking for celebrities in image " + photo + "\n");
+        context.Logger.LogLine($"Starte Analyse für: {bucketName}/{objectKey}");
 
-        RecognizeCelebritiesResponse recognizeCelebritiesResponse = await rekognitionClient.RecognizeCelebritiesAsync(recognizeCelebritiesRequest);
-
-        Console.WriteLine(recognizeCelebritiesResponse.CelebrityFaces.Count + " celebrity(s) were recognized.\n");
-        foreach (Celebrity celebrity in recognizeCelebritiesResponse.CelebrityFaces)
+        try
         {
-            Console.WriteLine("Celebrity recognized: " + celebrity.Name);
-            Console.WriteLine("Celebrity ID: " + celebrity.Id);
-            BoundingBox boundingBox = celebrity.Face.BoundingBox;
-            Console.WriteLine("position: " +
-               boundingBox.Left + " " + boundingBox.Top);
-            Console.WriteLine("Further information (if available):");
-            foreach (String url in celebrity.Urls)
-                Console.WriteLine(url);
+            // 1. Erstellung der Anfrage an AWS Rekognition.
+            // Wir sagen Rekognition, wo das Bild liegt, ohne es selbst herunterladen zu müssen.
+            var recognizeRequest = new RecognizeCelebritiesRequest
+            {
+                Image = new Image
+                {
+                    S3Object = new Amazon.Rekognition.Model.S3Object
+                    {
+                        Bucket = bucketName,
+                        Name = objectKey
+                    }
+                }
+            };
+
+            // 2. Aufruf der Bildanalyse.
+            context.Logger.LogLine("Rufe AWS Rekognition Celebrity Recognition auf...");
+            var response = await _rekognitionClient.RecognizeCelebritiesAsync(recognizeRequest);
+
+            // 3. Serialisierung des Ergebnisses in ein schönes JSON-Format.
+            string resultJson = JsonSerializer.Serialize(response, new JsonSerializerOptions
+            {
+                WriteIndented = true
+            });
+
+            // 4. Speichern des Ergebnisses im Output-Bucket.
+            string resultKey = $"{objectKey}.json";
+
+            context.Logger.LogLine($"Speichere Analyse-Ergebnis unter: {outputBucket}/{resultKey}");
+
+            await _s3Client.PutObjectAsync(new PutObjectRequest
+            {
+                BucketName = outputBucket,
+                Key = resultKey,
+                ContentBody = resultJson,
+                ContentType = "application/json"
+            });
+
+            context.Logger.LogLine("Verarbeitung erfolgreich abgeschlossen.");
         }
-        Console.WriteLine(recognizeCelebritiesResponse.UnrecognizedFaces.Count + " face(s) were unrecognized.");
+        catch (Exception ex)
+        {
+            // Detailliertes Error-Logging für CloudWatch Logs.
+            context.Logger.LogLine($"KRITISCHER FEHLER bei der Verarbeitung von {objectKey}: {ex.Message}");
+            context.Logger.LogLine(ex.StackTrace);
+            throw;
+        }
     }
 }

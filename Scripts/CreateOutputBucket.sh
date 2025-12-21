@@ -5,6 +5,12 @@
 # Author:	Paulo Capelos
 # Date:		17.12.2025
 
+if [ -f "BucketNames" ]; then
+    source BucketNames
+else
+    echo "FEHLER: Datei 'BucketNames' nicht gefunden. Bitte zuerst init.sh ausführen."
+    exit 1
+fi
 REGION="us-east-1"
 
 if aws s3api head-bucket --bucket "$BUCKET_NAME" 2>/dev/null; then

@@ -6,7 +6,12 @@
 # Date:		17.12.2025
 
 # --- KONFIGURATION ---
-IN_BUCKET="input-bucket-m346-project67"
+if [ -f "BucketNames" ]; then
+    source BucketNames
+else
+    echo "FEHLER: Datei 'BucketNames' nicht gefunden. Bitte zuerst init.sh ausführen."
+    exit 1
+fi
 FUNCTION_NAME="FaceRecognitionLambda"
 
 echo "=== S3-Trigger Konfiguration wird gestartet ==="
@@ -27,7 +32,7 @@ aws lambda add-permission \
   --statement-id "$STATEMENT_ID" \
   --action lambda:InvokeFunction \
   --principal s3.amazonaws.com \
-  --source-arn "arn:aws:s3:::$IN_BUCKET" >/dev/null
+  --source-arn "arn:aws:s3:::$INPUT_BUCKET_NAME" >/dev/null
 
 # 3. Wartezeit
 # AWS benötigt oft einen Moment, bis die neue Policy global verfügbar ist. 
@@ -36,7 +41,7 @@ sleep 3
 
 # 4. S3-Trigger erstellen
 # Hier wird S3 angewiesen: 'Wenn ein Objekt erstellt wurde, starte diese Lambda'.
-echo "Konfiguriere S3-Event-Notification für Bucket: $IN_BUCKET..."
+echo "Konfiguriere S3-Event-Notification für Bucket: $INPUT_BUCKET_NAME..."
 NOTIFICATION_CONF="{
   \"LambdaFunctionConfigurations\": [
     {
@@ -47,7 +52,7 @@ NOTIFICATION_CONF="{
 }"
 
 aws s3api put-bucket-notification-configuration \
-  --bucket "$IN_BUCKET" \
+  --bucket "$INPUT_BUCKET_NAME" \
   --notification-configuration "$NOTIFICATION_CONF"
 
 echo "=== Erfolg: S3-Trigger für $FUNCTION_NAME wurde aktiviert! ==="

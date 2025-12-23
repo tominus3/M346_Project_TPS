@@ -174,4 +174,24 @@ Betriebssystem: Ubuntu 22.04 LTS
 
 ### 4.2. Tom Nielsen
 
+#### Positive Aspekte
+
+In diesem Projekt habe ich gelernt, Cloud-Komponenten sinnvoll zu verbinden und zu automatisieren. Besonders wichtig war für mich die saubere Trennung von Konfiguration und Logik. Durch die zentrale Datei für die BucketNames konnte ich alle Skripte einheitlich steuern und Änderungen schnell umsetzen.
+
+Die Skripte sind stabil aufgebaut und funktionieren auch in unterschiedlichen Umgebungen. Durch die automatische Erkennung der benötigten Rollen und das kontrollierte Testen habe ich verstanden, dass Lambda asynchron arbeitet und Resultate nicht sofort verfügbar sind.
+
+Die Arbeit mit der AWS CLI hat meinen Workflow deutlich verbessert. Viele Schritte, die manuell aufwendig wären, konnte ich automatisieren. Dadurch wurde die Konfiguration schneller, reproduzierbar und weniger fehleranfällig.
+
+#### Verbesserungen
+
+In zukünftigen Projekten möchte ich Benutzereingaben früher prüfen, damit Fehler sofort erkannt werden. So kann verhindert werden, dass fehlerhafte Werte erst beim Erstellen von Cloud-Ressourcen auffallen.
+
+Ausserdem will ich meine Skripte modularer aufbauen. Wiederkehrende Funktionen sollen ausgelagert werden, damit der Code übersichtlicher und leichter wartbar ist.
+
+Ein weiterer Verbesserungspunkt ist der Testprozess. Durch mehrere automatische Tests mit unterschiedlichen Dateien könnte die Zuverlässigkeit der Lösung weiter erhöht werden.
+
+#### Fazit
+
+Das Projekt hat mir gezeigt, dass ich die Grundlagen von Cloud-Automatisierung gut verstehe. Besonders stolz bin ich auf die klare Struktur und den vollständig automatisierten Ablauf von der Erstellung bis zum Reset. Für meine weitere Entwicklung sehe ich den nächsten Schritt in professionelleren Automatisierungs- und Strukturierungsansätzen.
+
 ### 4.3. Sai Ragavan

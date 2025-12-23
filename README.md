@@ -100,9 +100,12 @@ Das Herzstück des Services ist die Lambda-Funktion, welche die Bildanalyse steu
 - **Bereitstellung der Serverless-Funktion (`CreateLambdaFunction.sh`):** Das Skript automatisiert das Deployment der Funktion "FaceRecognitionLambda". Es verwendet die `dotnet8` Runtime und weist der Funktion die notwendige `LabRole` sowie die Handler-Konfiguration zu. Falls die Funktion bereits existiert, wird lediglich der Code über die `LambdaFunction.zip` aktualisiert.
 - **Ereignissteuerung und Workflow-Integration (`CreateS3Trigger.sh`):** Um den Prozess zu automatisieren, wird ein S3-Trigger konfiguriert. Das Skript erteilt S3 die `InvokeFunction`-Berechtigung und setzt eine Event-Notification auf den Input-Bucket, die bei jedem `s3:ObjectCreated:*`-Ereignis die Lambda-Funktion auslöst.
 
+- **Abhängigkeit der Namensgebung:** Der Name der Lambda-Funktion (FaceRecognitionLambda) ist in den Skripten CreateLambdaFunction.sh und CreateS3Trigger.sh jeweils hart codiert. Falls eine Namensänderung der Funktion gewünscht ist, muss diese zwingend in beiden Skripten gleichzeitig angepasst werden. Andernfalls kann der S3-Trigger die Berechtigungen nicht korrekt setzen oder die Funktion nicht finden.
+
 ### 2.3 Systemarchitektur
 
 ![Systemarchitektur](img/Systemarchitektur.png)
+Das Architektur-Diagramm visualisiert den automatisierten Workflow des Services: Ein User lädt ein Bild in den S3 Input Bucket hoch, was durch einen S3 Event Trigger die AWS Lambda-Funktion aktiviert. Die Lambda-Funktion sendet einen Analyse Request an AWS Rekognition, empfängt die erkannten Resultate und speichert diese abschliessend als JSON-Datei im S3 Output Bucket ab.
 
 ## 3. Testen des Services
 

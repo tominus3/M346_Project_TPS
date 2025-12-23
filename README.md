@@ -203,6 +203,18 @@ Das Projekt hat mir gezeigt, dass ich die Grundlagen von Cloud-Automatisierung g
 
 ### 4.3. Sai Ragavan
 
+#### Positive Aspekte
+
+Während dieses Projekts habe ich wertvolle Erfahrungen im Umgang mit AWS-Diensten gesammelt, insbesondere mit S3 und Lambda. Die Automatisierung der Infrastruktur mittels Shell-Skripten hat mir gezeigt, wie effizient Cloud-Ressourcen verwaltet werden können. Besonders stolz bin ich darauf, dass ich die gesamte Service-Architektur erfolgreich implementieren und testen konnte.
+
+#### Verbesserungen
+
+Trotz der erfolgreichen Implementierung gab es einige Herausforderungen, insbesondere bei der Fehlerbehandlung in den Skripten. In zukünftigen Projekten möchte ich die automatischen Prüfungen verbessern, um sicherzustellen, dass Eingaben und Ressourcen korrekt validiert werden, bevor sie erstellt oder modifiziert werden.
+
+#### Fazit
+
+Insgesamt hat mir dieses Projekt geholfen, meine Fähigkeiten in der Cloud-Entwicklung zu vertiefen. Ich habe gelernt, wie wichtig eine klare Struktur und Automatisierung sind, um komplexe Systeme effizient zu verwalten. Für zukünftige Projekte plane ich, meine Kenntnisse in der Fehlerbehandlung und im Testing weiter auszubauen.
+
 ## 5. Quellen
 
 - [AWS Dokumentation](https://docs.aws.amazon.com/de_de/AmazonS3/latest/userguide/GetStartedWithS3.html)

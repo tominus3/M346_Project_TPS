@@ -8,52 +8,170 @@
 | **Repository Link**     | https://github.com/tominus3/M346_Project_TPS    |
 | **Lehrperson**          | Martin Früh (frm1971)                           |
 
-## 1. Einleitung (README.md)
+## 1. Installation und Setup
 
-Dieses Dokument berichtet die Konzeption und Realisierung eines **Face Recognition Service** als Projektarbeit im Rahmen des Moduls 346. Das Projekt wurde in einer Dreiergruppe durchgeführt.
+### 1.1. Voraussetzungen
 
-### 1.1 Ausganslage
+- Ein AWS-Konto mit den erforderlichen Berechtigungen zum Erstellen und Verwalten von S3-Buckets und Lambda-Funktionen.
+- AWS CLI installiert und konfiguriert auf Ihrem lokalen Rechner.
+- Git installiert auf Ihrem lokalen Rechner.
+- Git-Bash (für Windows-Benutzer empfohlen).
 
-In diesem Projekt wurde ein Cloud-basierter Face Recognition Service entwickelt, der auf AWS-Diensten basiert. Der Service ermöglicht die automatische Erkennung bekannter Persönlichkeiten in hochgeladenen Bildern.
+### 1.2. Einrichtung des Services
 
-### 1.2 Projektziele
+Folgen sie den untenstehenden Schritten, um den Face Recognition Service einzurichten und auszuführen. Jegliche Befehle sind im Terminal (Git-Bash für Windows-Nutzer) auszuführen.
 
-1.  **Cloud Service:** Erstellung eines Face Recognition-Service unter Verwendung von AWS S3-Buckets (In- und Out-Bucket) und einer AWS Lambda-Funktion, die durch einen Trigger ausgelöst wird. Die Gesichtserkennung basiert auf dem AWS-Dienst Recognizing celebrities (AWS Rekognition).
-2.  **Bereitstellung:** Der Service kann mit allen erforderlichen Komponenten durch Ausführung eines Scripts von einem Windows oder Linux-Client aus im AWS Learner-Lab in Betrieb genommen werden.
-3.  **Versionsverwaltung:** Alle für die Inbetriebnahme benötigten Dateien und die zugehörige Dokumentation sind in einem Git-Repository versioniert abgelegt.
-4.  **Dokumentation:** Die Dokumentation ist als Markdown geschrieben, mit dem Einstiegspunkt `Readme.md`.
-5.  **Test und Protokollierung:** Der Service ist getestet und alle Testfälle sind mittels Screenshots dokumentiert und protokolliert.
+#### 1.2.1 Klonen Sie das Repository:
+
+```bash
+git clone https://github.com/tominus3/M346_Project_TPS.git
+```
+
+#### 1.2.2 AWS Credentials konfigurieren:
+
+Navigieren Sie sich zu ihren AWS Academy Learners Lab und kopieren sie die Credentials, welche sie unter: Launch AWS Academy Learners Lab -> AWS Details finden, indem sie auf "Show AWS Credentials" klicken. Kopieren sie anschliessend den Inhalt.
+
+##### 1.2.2.1 Linux Version
+
+Den Inhalt geben sie in in ihrem Laufwerk unter `.aws/credentials` ein.
+
+Falls sich der Ordner nicht im gegebenem Pfad befindet, können sie diesen erstellen indem sie den folgenden Befehl ausführen:
+
+```bash
+aws configure
+```
+
+#### 1.2.2.2 Windows Version
+
+Den Inhalt geben sie in in ihrem Laufwerk unter `C:\Users\<Benutzername>\.aws\credentials` ein.
+
+Falls sich der Ordner nicht im gegebenem Pfad befindet, können sie diesen erstellen indem sie den folgenden Befehl ausführen:
+
+```bash
+aws configure
+```
+
+#### 1.2.3 Service Initialisierung:
+
+Als erstes muss der Service initialisiert werden. Vergewissern sie sich, dass sie sich im Verzeichnis "Scripts" befinden und führen sie anschliessend den folgenden Befehl aus:
+
+```bash
+./Init.sh
+```
+
+Darauf hin müssen sie einen Namen für ihr S3 In-Bucket und S3 Out-Bucket angeben.
+
+#### 1.2.4 Bilddaten hochladen:
+
+Laden sie das Bild, welches sie analysieren möchten, im Verzeichnis "Test" hoch. vergiwssen sie Sich, dass das Bild im JPG-Format vorliegt.
+
+#### 1.2.5 Service Ausführung:
+
+Führen sie anschliessend im gleichen Verzeichnis den folgenden Befehl aus, um den Service zu starten:
+
+```bash
+./test.sh <Bildname>.jpg
+```
+
+#### 1.2.6 Löschen der Ressourcen:
+
+Um die erstellten Buckets zu löschen, führen sie im Verzeichnis "Scripts" den folgenden Befehl aus:
+
+```bash
+./Reset.sh
+```
 
 ## 2. Service-Architektur und -Implementierung
 
-### 2.1. Aufbau des Cloud Service
+In diesem Abschnitt wird die technische Umsetzung des Face Recognition Service erläutert. Der Service basiert auf einer eventgesteuerten Architektur (Serverless), die AWS S3 und AWS Lambda nutzt.
 
-Der Face Recognition Service wurde als serverlose Architektur im AWS Learner Lab konzipiert und implementiert. Er basiert auf einem ereignisgesteuerten Modell, das durch das Hochladen einer Datei ausgelöst wird, um die automatische Erkennung bekannter Persönlichkeiten zu gewährleisten.
+### 2.1 Infrastruktur-Management: S3-Buckets
 
-### 2.2. Funktionsweise des Services
+Die Speicherung der Daten erfolgt in zwei getrennten S3-Buckets, um Eingangsdaten und Analyseergebnisse zu trennen.
 
-#### 2.2.1. AWS S3 In-Bucket
+- **Erstellung und Konfiguration (`CreateInputBucket.sh` & `CreateOutputBucket.sh`):** Diese Skripte legen die benötigten Buckets in der Region `us-east-1` an. Dabei werden die Public Access Blocks deaktiviert und die Object Ownership auf `BucketOwnerPreferred` gesetzt, um eine korrekte Berechtigungssteuerung via ACLs zu ermöglichen.
 
-Das **S3 In-Bucket** (`input-bucket-m346-project`) dient als Eingangsschnittstelle. (Zu ergänzen)
+- **Bereinigung (`DeleteBuckets.sh`):** Dieses Skript ermöglicht das automatisierte Löschen der Projektressourcen. Es fordert den Benutzer zur Eingabe des Suffixes auf und entfernt beide Buckets inklusive aller enthaltenen Objekte (`--force`).
 
-#### 2.2.2. AWS S3 Out-Bucket
+### 2.2 Logik und Automatisierung: AWS Lambda
 
-Das **S3 Out-Bucket** (`output-bucket-m346-project`) dient als Ausgangsschnittstelle. (Zu ergänzen)
+Das Herzstück des Services ist die Lambda-Funktion, welche die Bildanalyse steuert.
 
-#### 2.2.3. AWS Lambda Funktion
+- **Bereitstellung der Serverless-Funktion (`CreateLambdaFunction.sh`):** Das Skript automatisiert das Deployment der Funktion "FaceRecognitionLambda". Es verwendet die `dotnet8` Runtime und weist der Funktion die notwendige `LabRole` sowie die Handler-Konfiguration zu. Falls die Funktion bereits existiert, wird lediglich der Code über die `LambdaFunction.zip` aktualisiert.
+- **Ereignissteuerung und Workflow-Integration (`CreateS3Trigger.sh`):** Um den Prozess zu automatisieren, wird ein S3-Trigger konfiguriert. Das Skript erteilt S3 die `InvokeFunction`-Berechtigung und setzt eine Event-Notification auf den Input-Bucket, die bei jedem `s3:ObjectCreated:*`-Ereignis die Lambda-Funktion auslöst.
 
-Die Lambda-Funktion ist das zentrale Element und führt die Gesichtserkennung durch.
+### 2.3 Systemarchitektur
 
-#### 2.2.4. Berechtigungen und Rollen
+![Systemarchitektur](img/Systemarchitektur.png)
 
-## 3. Bedienungsanleitung
+## 3. Testen des Services
 
-## 4. Testfälle und Protokollierung
+### 3.1 Windows 11 Testprotokoll
 
-AWS S3 In-Bucket Testfälle:
+Zeitpunkt: 21.12.2025
+Tester: Sai Ragavan
+Betriebssystem: Windows 11
 
-AWS S3 Out-Bucket Testfälle:
+1. Credentials konfigurieren.
+   ![Credentials](img/Credentials.png)
 
-AWS Lambda Funktion Testfälle:
+2. JPG-Bild hochladen. (Falls, noch nicht geschehen)
+   ![Bild_Hochladen](img/Bild_Hochladen.png)
 
-## 5. Reflexion
+3. Initialisierung des Services.
+   ![Init.sh](img/Init.png)
+
+   Der Nutzer wird aufgefordert, einen Namen für die Buckets anzugeben.
+
+4. Name des Buckets angeben.
+   ![Bucket_Name](img/Bucket_Name.png)
+
+   Nachdem der Nutzer die Namen der Buckets angegeben hat, werden diese erstellt und die S3-Trigger sowie die Lambda-Funktion konfiguriert.
+
+5. Service ausführen.
+   ![Ausgabe](img/Ausgabe.png)
+
+   Der Service wird ausgeführt und es sucht das Gesicht im Bild. Sobald die Berühmtheit erkannt wurde, wird das Ergebnis im Output-Bucket gespeichert und im Terminal ausgegeben.
+
+   Fazit: Der Service funktioniert einwandfrei und erkennt die Gesichter in den Bildern korrekt.
+
+6. Löschen der Ressourcen.
+
+### Linux Testprotokoll
+
+Zeitpunkt: 21.12.2025
+Tester: Sai Ragavan
+Betriebssystem: Ubuntu 22.04 LTS
+
+1. Credentials konfigurieren.
+   ![Credentials_Linux](img/Credentials_Linux.png)
+
+2. JPG-Bild hochladen. (Falls, noch nicht geschehen)
+   ![Ronaldo_Linux](img/Ronaldo_Linux.png)
+
+3. Initialisierung des Services.
+   ![Init.sh_Linux](img/Init_Linux.png)
+
+4. Name des Buckets angeben.
+   ![Bucket_Name_Linux](img/Bucket_Name_Linux.png)
+
+5. Service ausführen.
+   ![Ausgabe_Linux](img/Ausgabe_Linux.png)
+
+   (Der Inhalt wird hier nicht vollständig angezeigt, da das Bild zu lang ist.)
+
+   Fazit: Der Service funktioniert einwandfrei und erkennt die Gesichter in den Bildern korrekt.
+
+### 3.3 Empfehlungen
+
+- Speichern sie das Bild im mit einem Kurzen Namen, damit sie dieses einfach im Terminal aufrufen können.
+- Vergewissern sie sich, dass das Bild im JPG-Format vorliegt.
+- Achten sie darauf, dass die AWS Credentials korrekt konfiguriert sind
+
+## 4. Reflexion
+
+### 4.1. Paulo Capelos
+
+### 4.2. Tom Nielsen
+
+### 4.3. Sai Ragavan

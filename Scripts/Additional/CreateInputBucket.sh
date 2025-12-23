@@ -5,7 +5,7 @@ set -e
 # Description:	Erstellt ein konfiguriertes Input Bucket
 # Author:	Paulo Capelos
 # Date:		17.12.2025
-# Source: Unterichtsmaterialien, Gemini
+# Source: 	Unterichtsmaterialien, Gemini
 
 # --- KONFIGURATION ---
 if [ -f "BucketNames" ]; then

@@ -11,6 +11,7 @@ using System.Text.Json;
 // Description: Lambda Funktion zur Erkennung von Prominenten in Bildern mittels AWS Rekognition.
 // Author: Tom Nielsen
 // Date: 21.12.2025
+// Source: CelebrityRecognizer Dokumentation und Beispiele, gemini
 
 namespace CelebrityRecogniser;
 

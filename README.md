@@ -179,6 +179,32 @@ Betriebssystem: Ubuntu 22.04 LTS
 
 ### 4.1. Paulo Capelos
 
+#### Positive Aspekte
+
+Ich konnte endlich wieder meine Skripting-Kenntnisse auffrischen, da ich dies schon seit Längerem nicht mehr gemacht hatte. Zusätzlich habe ich noch einiges dazugelernt. Ein paar Punkte davon sind:
+
+1. Automatisierung der Bucket-Erstellung: Ich habe gelernt, wie man die Erstellung von Buckets mithilfe der AWS CLI vollständig automatisiert. Der Benutzer muss nur ein geeignetes Suffix eingeben, und schon wird der Bucket erstellt und automatisch konfiguriert.
+
+2. Sichere Konfiguration: Ich weiss nun, wie man einen Bucket mit den Mindestanforderungen so konfiguriert, dass der Besitzer die volle Kontrolle über die Objekte behält, selbst wenn diese von einem dritten Benutzer hochgeladen wurden.
+
+3. User-Experience durch Init-Skript: Ich habe gelernt, wie man ein init.sh schreibt, das alles vorbereitet und installiert, was für eine deutlich bessere User-Experience sorgt.
+
+Anhand dieses Projekts habe ich auch meine Kompetenz in der Teamarbeit gefördert. Wir haben sehr gut zusammengearbeitet, Kritik ohne unnötige Diskussionen angenommen und waren offen für Verbesserungsvorschläge. Somit war die Teamarbeit für mich ideal.
+
+Die Skripte sind optimal aufgebaut und mit Kommentaren strukturiert. Ebenfalls wurden Funktionen genutzt, um die Skripte übersichtlicher und lesbarer zu gestalten.
+
+#### Verbesserungen
+
+Die Funktionen in meinen Skripten CreateInputBucket.sh und CreateOutputBucket.sh hätten ausgelagert werden können, da sie im Prinzip dasselbe tun. Dies ist jedoch ein optionaler Schritt zur Optimierung und war für die Grundfunktion nicht zwingend erforderlich.
+
+In zukünftigen Projekten möchte ich noch mehr Wert auf die Code-Lesbarkeit legen, damit meine Skripte von Anfang an optimal strukturiert sind.
+
+#### Fazit
+
+Zusammenfassend kann ich sagen, dass ich sehr zufrieden mit unserem Projekt bin. Wir haben gut kooperiert und auch in den Ferien am Projekt weitergearbeitet. Die Aufgaben wurden sinnvoll aufgeteilt und jeder hat seinen Teil zuverlässig erledigt.
+
+Ich persönlich habe viel mitgenommen, zum Beispiel, wie man die Erstellung konfigurierter Buckets automatisiert oder ein sorgfältiges init.sh erstellt.
+
 ### 4.2. Tom Nielsen
 
 #### Positive Aspekte

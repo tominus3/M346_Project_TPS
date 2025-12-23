@@ -12,6 +12,7 @@ else
     echo "Datei 'BucketNames' nicht gefunden. Bitte zuerst init.sh ausführen."
     exit 1
 fi
+export AWS_DEFAULT_REGION="us-east-1"
 
 FUNCTION_NAME="FaceRecognitionLambda"
 
@@ -19,7 +20,7 @@ echo "=== Vollständiger Projekt-Reset ==="
 
 # 1. Lambda-Funktion löschen
 echo "Lösche Lambda-Funktion: $FUNCTION_NAME..."
-aws lambda delete-function --function-name "$FUNCTION_NAME" 2>/dev/null || echo "Lambda bereits gelöscht."
+aws lambda delete-function --function-name "$FUNCTION_NAME" >/dev/null 2>&1 || echo "Lambda bereits gelöscht."
 
 # 2. In-Bucket löschen
 echo "Lösche In-Bucket: $IN_BUCKET..."

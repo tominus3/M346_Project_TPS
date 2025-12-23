@@ -7,14 +7,17 @@ set -e
 # Date:		17.12.2025
 # Source: Unterichtsmaterialien, Gemini
 
+# --- KONFIGURATION ---
 if [ -f "BucketNames" ]; then
     source BucketNames
 else
     echo "FEHLER: Datei 'BucketNames' nicht gefunden. Bitte zuerst init.sh ausführen."
     exit 1
 fi
+
 REGION="us-east-1"
 
+# 1. Check and create bucket
 if aws s3api head-bucket --bucket "$BUCKET_NAME" 2>/dev/null; then
     echo "Bucket $INPUT_BUCKET_NAME Bucket already exists"
 else
@@ -22,6 +25,7 @@ else
     aws s3 mb s3://$INPUT_BUCKET_NAME --region $REGION
 fi
 
+# 2. Configure the safety bar in order to use ACL
 function configure_bucket()
 {
 	aws s3api put-public-access-block \
@@ -29,6 +33,7 @@ function configure_bucket()
 	--public-access-block-configuration "BlockPublicPolicy=false"
 }
 
+# 3. Configure the ownership rights over the buckets
 function activate_ACL()
 {
 	aws s3api put-bucket-ownership-controls \

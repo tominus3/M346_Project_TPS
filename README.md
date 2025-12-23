@@ -130,12 +130,15 @@ Betriebssystem: Windows 11
 
 5. Service ausführen.
    ![Ausgabe](img/Ausgabe.png)
+   ![JSON_Datei](JSON_Datei.png)
 
-   Der Service wird ausgeführt und es sucht das Gesicht im Bild. Sobald die Berühmtheit erkannt wurde, wird das Ergebnis im Output-Bucket gespeichert und im Terminal ausgegeben.
-
-   Fazit: Der Service funktioniert einwandfrei und erkennt die Gesichter in den Bildern korrekt.
+   Der Service wird ausgeführt und es sucht das Gesicht im Bild. Sobald die Berühmtheit erkannt wurde, wird das Ergebnis im Output-Bucket gespeichert und im Terminal ausgegeben. Ausserdem wird eine JSON-Datei erstellt, welche die Details der erkannten Berühmtheit enthält.
 
 6. Löschen der Ressourcen.
+   ![Reset](img/Reset.png)
+   Der Service wird zurückgesetzt und die erstellten Buckets werden gelöscht.
+
+   **Fazit**: Der Service funktioniert einwandfrei und erkennt die Berühmtheit in den Bildern korrekt.
 
 ### Linux Testprotokoll
 
@@ -158,9 +161,11 @@ Betriebssystem: Ubuntu 22.04 LTS
 5. Service ausführen.
    ![Ausgabe_Linux](img/Ausgabe_Linux.png)
 
-   (Der Inhalt wird hier nicht vollständig angezeigt, da das Bild zu lang ist.)
+   Der Service wird ausgeführt und es sucht das Gesicht im Bild. Sobald die Berühmtheit erkannt wurde, wird das Ergebnis im Output-Bucket gespeichert und im Terminal ausgegeben. Ausserdem wird eine JSON-Datei erstellt, welche die Details der erkannten Berühmtheit enthält.
 
-   Fazit: Der Service funktioniert einwandfrei und erkennt die Gesichter in den Bildern korrekt.
+   6. Löschen der Ressourcen.
+
+   Fazit: Der Service funktioniert einwandfrei und erkennt die Berühmtheit in den Bildern korrekt.
 
 ### 3.3 Empfehlungen
 
@@ -195,3 +200,10 @@ Ein weiterer Verbesserungspunkt ist der Testprozess. Durch mehrere automatische 
 Das Projekt hat mir gezeigt, dass ich die Grundlagen von Cloud-Automatisierung gut verstehe. Besonders stolz bin ich auf die klare Struktur und den vollständig automatisierten Ablauf von der Erstellung bis zum Reset. Für meine weitere Entwicklung sehe ich den nächsten Schritt in professionelleren Automatisierungs- und Strukturierungsansätzen.
 
 ### 4.3. Sai Ragavan
+
+## 5. Quellen
+
+- [AWS Dokumentation](https://docs.aws.amazon.com/de_de/AmazonS3/latest/userguide/GetStartedWithS3.html)
+- [Gemini](https://gemini.google.com/app)
+- [Unterrichtsmaterialien Online-Skript](https://gbssg.gitlab.io/m346/lab-aws/)
+- Unterrichtsmaterialien OneNote

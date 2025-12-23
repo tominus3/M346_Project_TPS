@@ -160,10 +160,12 @@ Betriebssystem: Ubuntu 22.04 LTS
 
 5. Service ausführen.
    ![Ausgabe_Linux](img/Ausgabe_Linux.png)
+   ![JSON_Datei_Linux](img/JSON_Datei_Linux.png)
 
    Der Service wird ausgeführt und es sucht das Gesicht im Bild. Sobald die Berühmtheit erkannt wurde, wird das Ergebnis im Output-Bucket gespeichert und im Terminal ausgegeben. Ausserdem wird eine JSON-Datei erstellt, welche die Details der erkannten Berühmtheit enthält.
 
-   6. Löschen der Ressourcen.
+6. Löschen der Ressourcen.
+   ![Reset_Linux](img/Reset_Linux.png)
 
    Fazit: Der Service funktioniert einwandfrei und erkennt die Berühmtheit in den Bildern korrekt.
 

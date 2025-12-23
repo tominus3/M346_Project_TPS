@@ -46,13 +46,17 @@ while [ $COUNT -lt $MAX_ATTEMPTS ]; do
     
     # Prüfen ob die Ergebnis-Datei existiert
     if aws s3 ls "s3://$OUTPUT_BUCKET_NAME/$EXPECTED_JSON" > /dev/null 2>&1; then
-        echo -e "\n\nERFOLG: Analyse-Ergebnis wurde erstellt!"
+        echo -e "\n\nAnalyse-Ergebnis wurde erstellt"
+
+        echo "Lade Ergebnis-Datei lokal herunter..."
+        aws s3 cp "s3://$OUTPUT_BUCKET_NAME/$EXPECTED_JSON" "./$EXPECTED_JSON"
+
         echo "----------------------------------------------------"
         echo "DATEI: s3://$OUTPUT_BUCKET_NAME/$EXPECTED_JSON"
         echo "----------------------------------------------------"
-        echo "INHALT DER JSON-ANALYSE:"
+        echo "Erkannte Personen:"
         
-        aws s3 cp "s3://$OUTPUT_BUCKET_NAME/$EXPECTED_JSON" -
+        grep -oP '"Name":\s*"\K[^"]+' "./$EXPECTED_JSON"
         
         echo -e "\n----------------------------------------------------"
         exit 0

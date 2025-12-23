@@ -5,6 +5,7 @@ set -e
 # Description:	Erstellt ein konfiguriertes Output Bucket
 # Author:	Paulo Capelos
 # Date:		17.12.2025
+# Source: Unterichtsmaterialien, Gemini
 
 if [ -f "BucketNames" ]; then
     source BucketNames
